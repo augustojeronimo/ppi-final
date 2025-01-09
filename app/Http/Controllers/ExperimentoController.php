@@ -2,85 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreExperimentoRequest;
-use App\Http\Requests\UpdateExperimentoRequest;
 use App\Models\Experimento;
+use Illuminate\Http\Request;
 
 class ExperimentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $experimentos = Experimento::all();
+
+        return view('experimentos/index', compact('experimentos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('experimentos/create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreExperimentoRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreExperimentoRequest $request)
+    public function store(Request $request)
     {
-        //
+        $dados = $request->all([
+            'nome',
+            'descricao',
+            'data',
+        ]);
+
+        Experimento::create($dados);
+
+        return redirect()->route('experimento.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Experimento  $experimento
-     * @return \Illuminate\Http\Response
-     */
     public function show(Experimento $experimento)
     {
-        //
+        return view('experimentos/show', compact('experimento'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Experimento  $experimento
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Experimento $experimento)
     {
-        //
+        return view('experimentos/edit', compact('experimento'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateExperimentoRequest  $request
-     * @param  \App\Models\Experimento  $experimento
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateExperimentoRequest $request, Experimento $experimento)
+    public function update(Request $request, Experimento $experimento)
     {
-        //
+        $dados = $request->all([
+            'nome',
+            'descricao',
+            'data',
+        ]);
+
+        $experimento->update($dados);
+
+        return redirect()->route('experimento.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Experimento  $experimento
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Experimento $experimento)
     {
-        //
+        $experimento->delete();
+
+        return redirect()->route('experimento.index');
     }
 }

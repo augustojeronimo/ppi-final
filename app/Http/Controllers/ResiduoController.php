@@ -2,85 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreResiduoRequest;
-use App\Http\Requests\UpdateResiduoRequest;
 use App\Models\Residuo;
+use Illuminate\Http\Request;
 
 class ResiduoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $residuos = Residuo::all();
+
+        return view('residuos/index', compact('residuos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('residuos/create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreResiduoRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreResiduoRequest $request)
+    public function store(Request $request)
     {
-        //
+        $dados = $request->all([
+            'nome',
+            'descarte',
+        ]);
+
+        Residuo::create($dados);
+
+        return redirect()->route('residuo.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Residuo  $residuo
-     * @return \Illuminate\Http\Response
-     */
     public function show(Residuo $residuo)
     {
-        //
+        return view('residuos/show', compact('residuo'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Residuo  $residuo
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Residuo $residuo)
     {
-        //
+        return view('residuos/edit', compact('residuo'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateResiduoRequest  $request
-     * @param  \App\Models\Residuo  $residuo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateResiduoRequest $request, Residuo $residuo)
+    public function update(Request $request, Residuo $residuo)
     {
-        //
+        $dados = $request->all([
+            'nome',
+            'descarte',
+        ]);
+
+        $residuo->update($dados);
+
+        return redirect()->route('residuo.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Residuo  $residuo
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Residuo $residuo)
     {
-        //
+        $residuo->delete();
+
+        return redirect()->route('residuo.index');
     }
 }
