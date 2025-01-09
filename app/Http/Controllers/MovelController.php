@@ -28,7 +28,7 @@ class MovelController extends Controller
 
     public function show(Movel $movel)
     {
-        // return view('moveis/show', compact('movel'));
+        return view('moveis/show', compact('movel'));
     }
 
     public function edit(Movel $movel)
