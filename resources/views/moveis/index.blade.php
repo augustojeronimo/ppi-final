@@ -32,12 +32,8 @@
     <div style="border: 1px solid black; padding: 1em; margin: 1em;">
         <h3 style="margin: 0">{{ $movel->nome }}</h3>
         <p>{{ $movel->localizacao }}</p>
-        <button>
-            <a href="{{ route('movel.show', $movel) }}">Ver</a>
-        </button>
-        <button>
-            <a href="{{ route('movel.edit', $movel) }}">Editar</a>
-        </button>
+        <a href="{{ route('movel.show', $movel) }}"><button>Ver</button></a>
+        <a href="{{ route('movel.edit', $movel) }}"><button>Editar</button></a>
         <form action="{{ route('movel.destroy', $movel) }}" method="post" style="display: inline">
             @csrf
             @method('DELETE')
