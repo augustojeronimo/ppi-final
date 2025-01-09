@@ -2,85 +2,82 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMaterialRequest;
-use App\Http\Requests\UpdateMaterialRequest;
 use App\Models\Material;
+use App\Models\Movel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MaterialController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $materiais = Material::all();
+
+        return view('materiais/index', compact('materiais'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $moveis = Movel::all();
+        return view('materiais/create', compact('moveis'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreMaterialRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreMaterialRequest $request)
+    public function store(Request $request)
     {
-        //
+        $dados = $request->all([
+            'nome',
+            'descricao',
+            'movel_id',
+        ]);
+
+        $nomeImagem = date('Y-m-d_H-i-s-u').".".$request->imagem->extension();
+        $caminho = $request->file('imagem')->storeAs('public/imagens/materiais', $nomeImagem);
+
+        $dados['imagem'] = str_replace('public', 'storage', $caminho);
+
+        Material::create($dados);
+
+        return redirect()->route('material.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Material  $material
-     * @return \Illuminate\Http\Response
-     */
     public function show(Material $material)
     {
-        //
+        return view('materiais/show', compact('material'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Material  $material
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Material $material)
     {
-        //
+        $moveis = Movel::all();
+        return view('materiais/edit', compact(['material', 'moveis']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateMaterialRequest  $request
-     * @param  \App\Models\Material  $material
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateMaterialRequest $request, Material $material)
+    public function update(Request $request, Material $material)
     {
-        //
+        $dados = $request->all([
+            'nome',
+            'descricao',
+            'movel_id',
+        ]);
+        $dados['imagem'] = $material->imagem;
+
+        if ($request->hasFile("imagem")) {
+            $caminho = dirname(str_replace('storage', 'public', $material->imagem));
+            $nomeImagem = basename($material->imagem);
+            $request->file('imagem')->storeAs($caminho, $nomeImagem);
+        }
+
+        $material->update($dados);
+
+        return redirect()->route('material.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Material  $material
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Material $material)
     {
-        //
+        $material->delete();
+
+        $caminho =str_replace('storage', 'public', $material->imagem);
+        Storage::delete($caminho);
+
+        return redirect()->route('material.index');
     }
 }

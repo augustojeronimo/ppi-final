@@ -49,6 +49,6 @@
 
 @else
 
-<h2>Nenhum móvel cadastrado...</h2>
+<h2>Nenhum equipamento cadastrado...</h2>
 
 @endif

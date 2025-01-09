@@ -5,10 +5,10 @@
     Móveis
 </button></a>
 <a href="{{ route('equipamento.index') }}"><button>
-    <strong>Equipamentos</strong>
+    Equipamentos
 </button></a>
 <a href="{{ route('material.index') }}"><button>
-    Materiais
+    <strong>Materiais</strong>
 </button></a>
 <a href="{{ route('reagente.index') }}"><button>
     Reagentes
@@ -21,15 +21,18 @@
 </button></a>
 <hr>
 
-<a href="{{ route('equipamento.index') }}" style="margin-left: 1em;">
+<a href="{{ route('material.index') }}" style="margin-left: 1em;">
     <button>Voltar</button>
 </a>
 
-<form action="{{ route('equipamento.store') }}" method="post" enctype="multipart/form-data" style="padding: 1em;">
+<form action="{{ route('material.update', $material) }}" method="post" enctype="multipart/form-data" style="padding: 1em;">
     @csrf
-    nome: <input required name="nome" type="text">
+    @method('PUT')
+    nome: <input required name="nome" type="text" value="{{ $material->nome }}">
     <br> <br>
-    imagem: <input required name="imagem" type="file" accept="image/jpeg">
+    descrição: <input required name="descricao" type="text" value="{{ $material->descricao }}">
+    <br> <br>
+    imagem: <input name="imagem" type="file" accept="image/jpeg">
     <br> <br>
     <select name="movel_id">
         <option selected>--- Selecionar móvel ---</option>
@@ -40,8 +43,7 @@
         @endif
     </select>
     <br> <br>
-    <input type="submit" value="Cadastrar">
+    <input type="submit" value="Atualizar">
 </form>
-
 
 
