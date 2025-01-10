@@ -22,6 +22,6 @@ class Reagente extends Model
     }
 
     public function experimentos() {
-        return $this->belongsToMany(Experimento::class)->get();
+        return $this->belongsToMany(Experimento::class, 'experimento_reagente', 'reagente_id', 'experimento_id');
     }
 }

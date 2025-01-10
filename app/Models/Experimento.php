@@ -18,18 +18,19 @@ class Experimento extends Model
     public $timestamps = false;
 
     public function equipamentos() {
-        return $this->hasMany(Equipamento::class)->get();
+        return $this->belongsToMany(Equipamento::class, 'experimento_equipamento', 'experimento_id', 'equipamento_id');
     }
 
     public function materiais() {
-        return $this->hasMany(Material::class)->get();
+        return $this->belongsToMany(Material::class, 'experimento_material', 'experimento_id', 'material_id');
     }
 
     public function reagentes() {
-        return $this->hasMany(Reagente::class)->get();
+        return $this->belongsToMany(Reagente::class, 'experimento_reagente', 'experimento_id', 'reagente_id');
     }
 
     public function residuos() {
-        return $this->hasMany(Residuo::class)->get();
+        return $this->belongsToMany(Residuo::class, 'experimento_residuo', 'experimento_id', 'residuo_id');
     }
+
 }

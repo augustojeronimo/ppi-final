@@ -17,6 +17,6 @@ class Residuo extends Model
     public $timestamps = false;
 
     public function experimentos() {
-        return $this->belongsToMany(Experimento::class)->get();
+        return $this->belongsToMany(Experimento::class, 'experimento_residuo', 'residuo_id', 'experimento_id');
     }
 }

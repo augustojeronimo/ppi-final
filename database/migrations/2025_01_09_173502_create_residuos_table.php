@@ -19,7 +19,7 @@ class CreateResiduosTable extends Migration
             $table->date("descarte")->nullable();
         });
 
-        Schema::create('residuo_experimento', function (Blueprint $table) {
+        Schema::create('experimento_residuo', function (Blueprint $table) {
             $table->unsignedBigInteger("residuo_id");
             $table->unsignedBigInteger("experimento_id");
 

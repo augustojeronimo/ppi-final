@@ -22,6 +22,6 @@ class Equipamento extends Model
     }
 
     public function experimentos() {
-        return $this->belongsToMany(Experimento::class)->get();
+        return $this->belongsToMany(Experimento::class, 'experimento_equipamento', 'equipamento_id', 'experimento_id');
     }
 }
